@@ -12,7 +12,38 @@
 		081934A720DD4AB500AECA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 081934A520DD4AB500AECA6A /* Main.storyboard */; };
 		081934A920DD4AB600AECA6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 081934A820DD4AB600AECA6A /* Assets.xcassets */; };
 		081934AC20DD4AB600AECA6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 081934AA20DD4AB600AECA6A /* LaunchScreen.storyboard */; };
+		081934BA20DD504800AECA6A /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081934B920DD504800AECA6A /* PacketTunnelProvider.swift */; };
+		081934BF20DD504800AECA6A /* packetTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 081934B720DD504700AECA6A /* packetTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		081934CA20DD518000AECA6A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934C920DD518000AECA6A /* NetworkExtension.framework */; };
+		081934CD20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */; };
+		081934CE20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */; };
+		081934CF20DD51E100AECA6A /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CC20DD51E000AECA6A /* KeychainAccess.framework */; };
+		081934D020DD51E100AECA6A /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CC20DD51E000AECA6A /* KeychainAccess.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		081934BD20DD504800AECA6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0819349620DD4AB500AECA6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081934B620DD504700AECA6A;
+			remoteInfo = packetTunnel;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		081934C320DD504800AECA6A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				081934BF20DD504800AECA6A /* packetTunnel.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0819349E20DD4AB500AECA6A /* jiyunSpeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jiyunSpeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +53,14 @@
 		081934A820DD4AB600AECA6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		081934AB20DD4AB600AECA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		081934AD20DD4AB600AECA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		081934B720DD504700AECA6A /* packetTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = packetTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		081934B920DD504800AECA6A /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
+		081934BB20DD504800AECA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		081934BC20DD504800AECA6A /* packetTunnel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = packetTunnel.entitlements; sourceTree = "<group>"; };
+		081934C720DD50E400AECA6A /* jiyunSpeed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = jiyunSpeed.entitlements; sourceTree = "<group>"; };
+		081934C920DD518000AECA6A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenVPNAdapter.framework; path = Carthage/Build/iOS/OpenVPNAdapter.framework; sourceTree = SOURCE_ROOT; };
+		081934CC20DD51E000AECA6A /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +68,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081934CF20DD51E100AECA6A /* KeychainAccess.framework in Frameworks */,
+				081934CA20DD518000AECA6A /* NetworkExtension.framework in Frameworks */,
+				081934CD20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		081934B420DD504700AECA6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				081934D020DD51E100AECA6A /* KeychainAccess.framework in Frameworks */,
+				081934CE20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,7 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				081934A020DD4AB500AECA6A /* jiyunSpeed */,
+				081934B820DD504800AECA6A /* packetTunnel */,
 				0819349F20DD4AB500AECA6A /* Products */,
+				081934C420DD50D800AECA6A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				0819349E20DD4AB500AECA6A /* jiyunSpeed.app */,
+				081934B720DD504700AECA6A /* packetTunnel.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,6 +108,9 @@
 		081934A020DD4AB500AECA6A /* jiyunSpeed */ = {
 			isa = PBXGroup;
 			children = (
+				081934CC20DD51E000AECA6A /* KeychainAccess.framework */,
+				081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */,
+				081934C720DD50E400AECA6A /* jiyunSpeed.entitlements */,
 				081934A120DD4AB500AECA6A /* AppDelegate.swift */,
 				081934A320DD4AB500AECA6A /* ViewController.swift */,
 				081934A520DD4AB500AECA6A /* Main.storyboard */,
@@ -62,6 +119,24 @@
 				081934AD20DD4AB600AECA6A /* Info.plist */,
 			);
 			path = jiyunSpeed;
+			sourceTree = "<group>";
+		};
+		081934B820DD504800AECA6A /* packetTunnel */ = {
+			isa = PBXGroup;
+			children = (
+				081934B920DD504800AECA6A /* PacketTunnelProvider.swift */,
+				081934BB20DD504800AECA6A /* Info.plist */,
+				081934BC20DD504800AECA6A /* packetTunnel.entitlements */,
+			);
+			path = packetTunnel;
+			sourceTree = "<group>";
+		};
+		081934C420DD50D800AECA6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				081934C920DD518000AECA6A /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,15 +149,34 @@
 				0819349A20DD4AB500AECA6A /* Sources */,
 				0819349B20DD4AB500AECA6A /* Frameworks */,
 				0819349C20DD4AB500AECA6A /* Resources */,
+				081934C320DD504800AECA6A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				081934BE20DD504800AECA6A /* PBXTargetDependency */,
 			);
 			name = jiyunSpeed;
 			productName = jiyunSpeed;
 			productReference = 0819349E20DD4AB500AECA6A /* jiyunSpeed.app */;
 			productType = "com.apple.product-type.application";
+		};
+		081934B620DD504700AECA6A /* packetTunnel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 081934C020DD504800AECA6A /* Build configuration list for PBXNativeTarget "packetTunnel" */;
+			buildPhases = (
+				081934B320DD504700AECA6A /* Sources */,
+				081934B420DD504700AECA6A /* Frameworks */,
+				081934B520DD504700AECA6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = packetTunnel;
+			productName = packetTunnel;
+			productReference = 081934B720DD504700AECA6A /* packetTunnel.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -96,6 +190,25 @@
 				TargetAttributes = {
 					0819349D20DD4AB500AECA6A = {
 						CreatedOnToolsVersion = 9.4;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 1;
+							};
+							com.apple.VPNLite = {
+								enabled = 1;
+							};
+						};
+					};
+					081934B620DD504700AECA6A = {
+						CreatedOnToolsVersion = 9.4;
+						SystemCapabilities = {
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -113,6 +226,7 @@
 			projectRoot = "";
 			targets = (
 				0819349D20DD4AB500AECA6A /* jiyunSpeed */,
+				081934B620DD504700AECA6A /* packetTunnel */,
 			);
 		};
 /* End PBXProject section */
@@ -128,6 +242,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		081934B520DD504700AECA6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -140,7 +261,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		081934B320DD504700AECA6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				081934BA20DD504800AECA6A /* PacketTunnelProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		081934BE20DD504800AECA6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081934B620DD504700AECA6A /* packetTunnel */;
+			targetProxy = 081934BD20DD504800AECA6A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		081934A520DD4AB500AECA6A /* Main.storyboard */ = {
@@ -279,15 +416,21 @@
 		081934B120DD4AB600AECA6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = jiyunSpeed/jiyunSpeed.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8875XSXNGF;
+				DEVELOPMENT_TEAM = 86255LNSFB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = jiyunSpeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed;
+				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed.net;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -297,16 +440,70 @@
 		081934B220DD4AB600AECA6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = jiyunSpeed/jiyunSpeed.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8875XSXNGF;
+				DEVELOPMENT_TEAM = 86255LNSFB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = jiyunSpeed/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed;
+				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed.net;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		081934C120DD504800AECA6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = packetTunnel/packetTunnel.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 86255LNSFB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = packetTunnel/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed.net.packetTunnel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		081934C220DD504800AECA6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = packetTunnel/packetTunnel.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 86255LNSFB;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = packetTunnel/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.com.jiyunSpeed.net.packetTunnel;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -329,6 +526,15 @@
 			buildConfigurations = (
 				081934B120DD4AB600AECA6A /* Debug */,
 				081934B220DD4AB600AECA6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		081934C020DD504800AECA6A /* Build configuration list for PBXNativeTarget "packetTunnel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				081934C120DD504800AECA6A /* Debug */,
+				081934C220DD504800AECA6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
