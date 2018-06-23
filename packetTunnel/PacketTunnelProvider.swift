@@ -12,6 +12,7 @@ import OpenVPNAdapter
 class PacketTunnelProvider: NEPacketTunnelProvider {
     
     lazy var vpnAdapter: OpenVPNAdapter = {
+        print("jiyunpacket start tunnel method exec")
         let adapter = OpenVPNAdapter()
         adapter.delegate = self
         
@@ -24,6 +25,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     var stopHandler: (() -> Void)?
     
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+        print("jiyunpacket start tunnel method exec")
         // There are many ways to provide OpenVPN settings to the tunnel provider. For instance,
         // you can use `options` argument of `startTunnel(options:completionHandler:)` method or get
         // settings from `protocolConfiguration.providerConfiguration` property of `NEPacketTunnelProvider`
@@ -101,6 +103,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+        
+        print("==============")
+        
         stopHandler = completionHandler
         
         if vpnReachability.isTracking {
@@ -130,6 +135,8 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
     func openVPNAdapter(_ openVPNAdapter: OpenVPNAdapter, handleEvent event: OpenVPNAdapterEvent, message: String?) {
         switch event {
         case .connected:
+            
+            print("jiyunpacket connect")
             if reasserting {
                 reasserting = false
             }
@@ -140,6 +147,7 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
             self.startHandler = nil
             
         case .disconnected:
+            print("jiyunpacket disconnect")
             guard let stopHandler = stopHandler else { return }
             
             if vpnReachability.isTracking {
@@ -160,6 +168,7 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
     // Handle errors thrown by the OpenVPN library
     func openVPNAdapter(_ openVPNAdapter: OpenVPNAdapter, handleError error: Error) {
         // Handle only fatal errors
+        
         guard let fatal = (error as NSError).userInfo[OpenVPNAdapterErrorFatalKey] as? Bool, fatal == true else {
             return
         }

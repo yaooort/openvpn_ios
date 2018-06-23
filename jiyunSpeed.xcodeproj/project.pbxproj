@@ -17,6 +17,9 @@
 		081934D020DD51E100AECA6A /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CC20DD51E000AECA6A /* KeychainAccess.framework */; };
 		08ED92A920DD6AC000D1F5AA /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92A820DD6AC000D1F5AA /* Launch Screen.storyboard */; };
 		08ED92AE20DD6DC600D1F5AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92B020DD6DC600D1F5AA /* Main.storyboard */; };
+		08ED92B220DD755600D1F5AA /* freeopenvpn_USA_udp.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92B120DD755400D1F5AA /* freeopenvpn_USA_udp.ovpn */; };
+		08ED92B320DD76ED00D1F5AA /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934C920DD518000AECA6A /* NetworkExtension.framework */; };
+		08ED92B820DE10B900D1F5AA /* OpenVPNAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +44,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		08ED92B920DE10BA00D1F5AA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				08ED92B820DE10B900D1F5AA /* OpenVPNAdapter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +73,8 @@
 		081934CC20DD51E000AECA6A /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = SOURCE_ROOT; };
 		08ED92A820DD6AC000D1F5AA /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		08ED92AF20DD6DC600D1F5AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		08ED92B120DD755400D1F5AA /* freeopenvpn_USA_udp.ovpn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = freeopenvpn_USA_udp.ovpn; sourceTree = "<group>"; };
+		08ED92B420DD7B7100D1F5AA /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +91,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				081934D020DD51E100AECA6A /* KeychainAccess.framework in Frameworks */,
+				08ED92B320DD76ED00D1F5AA /* NetworkExtension.framework in Frameworks */,
 				081934CE20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +121,7 @@
 		081934A020DD4AB500AECA6A /* jiyunSpeed */ = {
 			isa = PBXGroup;
 			children = (
+				08ED92B120DD755400D1F5AA /* freeopenvpn_USA_udp.ovpn */,
 				08ED92B020DD6DC600D1F5AA /* Main.storyboard */,
 				081934CC20DD51E000AECA6A /* KeychainAccess.framework */,
 				081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */,
@@ -130,6 +148,7 @@
 		081934C420DD50D800AECA6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08ED92B420DD7B7100D1F5AA /* HomeKit.framework */,
 				081934C920DD518000AECA6A /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
@@ -146,6 +165,7 @@
 				0819349B20DD4AB500AECA6A /* Frameworks */,
 				0819349C20DD4AB500AECA6A /* Resources */,
 				081934C320DD504800AECA6A /* Embed App Extensions */,
+				08ED92B920DE10BA00D1F5AA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -164,6 +184,7 @@
 				081934B320DD504700AECA6A /* Sources */,
 				081934B420DD504700AECA6A /* Frameworks */,
 				081934B520DD504700AECA6A /* Resources */,
+				08ED92BA20DE1F0A00D1F5AA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -190,6 +211,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.HomeKit = {
+								enabled = 1;
+							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;
 							};
@@ -201,6 +225,12 @@
 					081934B620DD504700AECA6A = {
 						CreatedOnToolsVersion = 9.4;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.HomeKit = {
+								enabled = 1;
+							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;
 							};
@@ -233,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08ED92AE20DD6DC600D1F5AA /* Main.storyboard in Resources */,
+				08ED92B220DD755600D1F5AA /* freeopenvpn_USA_udp.ovpn in Resources */,
 				08ED92A920DD6AC000D1F5AA /* Launch Screen.storyboard in Resources */,
 				081934A920DD4AB600AECA6A /* Assets.xcassets in Resources */,
 			);
@@ -246,6 +277,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08ED92BA20DE1F0A00D1F5AA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0819349A20DD4AB500AECA6A /* Sources */ = {
