@@ -69,7 +69,11 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             
             NSLog("========================================================jiyun !autologin ========================================================")
             
-            guard let username: String = protocolConfiguration.username else {
+            // guard let username: String = protocolConfiguration.username else {
+            //    fatalError()
+            // }
+            
+            guard let username = options?["username"] as? String, let password = options?["password"] as? String else {
                 fatalError()
             }
             
@@ -80,8 +84,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             
             let credentials = OpenVPNCredentials()
             credentials.username = username
-            credentials.password = "111111"
-            
+            credentials.password = password
+            NSLog("========================================================getuserName=\(username) getpassword\(password)========================================================")
             do {
                 try vpnAdapter.provide(credentials: credentials)
             } catch {

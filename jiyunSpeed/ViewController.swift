@@ -78,8 +78,8 @@ class ViewController: UIViewController {
                 }
                 
                 let options: [String : NSObject] = [
-                    "username": "" as NSString,
-                    "password": "" as NSString
+                    "username": "647622122" as NSString,
+                    "password": "111111" as NSString
                 ]
                 
                 do {
@@ -159,7 +159,7 @@ extension ViewController {
                 return
             }
             
-            let passwordKey = "1111"
+            // let passwordKey = "1111"
             
             do {
                 // try self.keychain.set("sohil", key: passwordKey)
@@ -190,8 +190,9 @@ extension ViewController {
                 tunnelProtocol.serverAddress = "freeopenvpn.org"
                 tunnelProtocol.providerBundleIdentifier = "org.com.jiyunSpeed.net.packetTunnel"
                 tunnelProtocol.providerConfiguration = ["configuration": configurationContent]
-                tunnelProtocol.username = "647622122"
-              //  tunnelProtocol.passwordReference = passwordReference
+                // tunnelProtocol.username = "647622122"
+                // tunnelProtocol.passwordReference
+                //  tunnelProtocol.passwordReference = passwordReference
                 // tunnelProtocol.passwordReference = ""
                 tunnelProtocol.disconnectOnSleep = false
                 
