@@ -8,6 +8,7 @@
 
 import UIKit
 import NetworkExtension
+import JavaScriptCore
 
 public enum VPNStatus {
     case Off
@@ -17,10 +18,52 @@ public enum VPNStatus {
 }
 
 
-class ViewController: UIViewController {
+@objc protocol VideoJsDelegate:JSExport {
+    func playLog(videoId:String)
+    func stopVpn()
+    func launchVpn(
+        msg: String,
+        lineId: String,
+        name: String,
+        password: String,
+        ca: String,
+        tls: String,
+        remote: String,
+        port: String
+    )
+    func existsCollectVideo(collectId:String, _ handleName:String, _ typeStr:String)
+}
+
+@objc class VideoJsModel: NSObject, VideoJsDelegate {
+    
+    var jsContext:JSContext!
+    
+    func launchVpn(msg: String, lineId: String, name: String, password: String, ca: String, tls: String, remote: String, port: String) {
+        print("start vpn ca \(ca)")
+    }
+    
+    func stopVpn() {
+    }
+
+    func playLog(videoId:String) {
+        print(videoId)
+    }
+    
+    func existsCollectVideo(collectId:String, _ handleName:String, _ typeStr:String) {
+        // call js
+        let handleFunc = self.jsContext.objectForKeyedSubscript(handleName)
+        let dict = ["type": typeStr, "status": false] as [String : Any]
+        // handleFunc?.call(withArguments: [dict])
+    }
+}
+
+
+class ViewController: UIViewController, UIWebViewDelegate{
+    @IBOutlet weak var mWb: UIWebView!
     @IBOutlet weak var mVpnStatus: UILabel!
     @IBOutlet weak var mConnectBtn: UIButton!
     @IBOutlet weak var mStopBtn: UIButton!
+    private var jsContext:JSContext!
     private var manager: NETunnelProviderManager?
     public var observerAdded: Bool = false
     public let kProxyServiceVPNStatusNotification = "kProxyServiceVPNStatusNotification"
@@ -36,20 +79,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        initBtn()
+        self.initBtn()
+        self.initWb()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+   
+    func initWb () {
+        let url = URL(string: "https://app.geeyun.org/#/")
+        mWb.loadRequest(URLRequest(url: url!))
+        // todo: add before user agent
+        UserDefaults.standard.register(defaults: ["UserAgent": "androidvpn"])
+        self.mWb.delegate = self
+    }
 
     func initBtn () {
         mConnectBtn.tag = 2000
         mStopBtn.tag = 2001
         mStopBtn.addTarget(self, action: #selector(ViewController.btnClick), for: UIControlEvents.touchUpInside)
-        
         mConnectBtn.addTarget(self, action: #selector(ViewController.btnClick), for: UIControlEvents.touchUpInside)
     }
     
@@ -146,6 +196,20 @@ class ViewController: UIViewController {
             complete(nil)
         }
     }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        self.jsContext = webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as! JSContext
+        let model = VideoJsModel()
+        model.jsContext = self.jsContext
+        self.jsContext.setObject(model, forKeyedSubscript: "android" as NSCopying & NSObjectProtocol)
+        //WebView当前访问页面的链接 可动态注册
+        // let curUrl = webView.request?.url?.absoluteString
+        // self.jsContext.evaluateScript(try? String(contentsOfURL: NSURL(string: curUrl!)!, encoding: NSUTF8StringEncoding))
+        // self.jsContext.evaluateScript(<#T##script: String!##String!#>, withSourceURL: <#T##URL!#>)
+        self.jsContext.exceptionHandler = { (context, exception) in
+            print("exception：", exception)
+        }
+    }
 
 }
 
@@ -158,21 +222,7 @@ extension ViewController {
                 callback(error)
                 return
             }
-            
-            // let passwordKey = "1111"
-            
-            do {
-                // try self.keychain.set("sohil", key: passwordKey)
-            } catch {
-                print("\(error.localizedDescription)")
-                callback(error)
-                return
-            }
-            
-            // guard let passwordReference = self.keychain[attributes: passwordKey]?.persistentRef else {
-                // fatalError()
-            // }
-            
+            // call web  webView.evaluateJavaScript("something = 42", completionHandler: nil)
             self.manager = managers?.first ?? NETunnelProviderManager()
             
             self.manager?.loadFromPreferences(completionHandler: { (error) in
@@ -181,26 +231,16 @@ extension ViewController {
                     callback(error)
                     return
                 }
-                
                 let configurationFile = Bundle.main.url(forResource: "freeopenvpn_USA_udp", withExtension: "ovpn")
-                
                 let configurationContent = try! Data(contentsOf: configurationFile!)
-                
                 let tunnelProtocol = NETunnelProviderProtocol()
                 tunnelProtocol.serverAddress = "freeopenvpn.org"
                 tunnelProtocol.providerBundleIdentifier = "org.com.jiyunSpeed.net.packetTunnel"
                 tunnelProtocol.providerConfiguration = ["configuration": configurationContent]
-                // tunnelProtocol.username = "647622122"
-                // tunnelProtocol.passwordReference
-                //  tunnelProtocol.passwordReference = passwordReference
-                // tunnelProtocol.passwordReference = ""
                 tunnelProtocol.disconnectOnSleep = false
-                
                 self.manager?.protocolConfiguration = tunnelProtocol
                 self.manager?.localizedDescription = "jiyunVpn"
-                
                 self.manager?.isEnabled = true
-                
                 self.manager?.saveToPreferences(completionHandler: { (error) in
                     guard error == nil else {
                         print("\(error!.localizedDescription)")
