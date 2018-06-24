@@ -92,16 +92,16 @@ extension ViewController {
                 let configurationContent = try! Data(contentsOf: configurationFile!)
                 
                 let tunnelProtocol = NETunnelProviderProtocol()
-                tunnelProtocol.serverAddress = "123"
+                tunnelProtocol.serverAddress = "freeopenvpn.org"
                 tunnelProtocol.providerBundleIdentifier = "org.com.jiyunSpeed.net.packetTunnel"
                 tunnelProtocol.providerConfiguration = ["configuration": configurationContent]
-                tunnelProtocol.username = "sohil"
+                tunnelProtocol.username = "647622122"
               //  tunnelProtocol.passwordReference = passwordReference
                 // tunnelProtocol.passwordReference = ""
                 tunnelProtocol.disconnectOnSleep = false
                 
                 self.manager?.protocolConfiguration = tunnelProtocol
-                self.manager?.localizedDescription = "OpenVPN iOS Client 2"
+                self.manager?.localizedDescription = "jiyunVpn"
                 
                 self.manager?.isEnabled = true
                 

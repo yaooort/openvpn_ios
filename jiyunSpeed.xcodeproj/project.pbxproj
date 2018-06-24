@@ -18,7 +18,6 @@
 		08ED92A920DD6AC000D1F5AA /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92A820DD6AC000D1F5AA /* Launch Screen.storyboard */; };
 		08ED92AE20DD6DC600D1F5AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92B020DD6DC600D1F5AA /* Main.storyboard */; };
 		08ED92B220DD755600D1F5AA /* freeopenvpn_USA_udp.ovpn in Resources */ = {isa = PBXBuildFile; fileRef = 08ED92B120DD755400D1F5AA /* freeopenvpn_USA_udp.ovpn */; };
-		08ED92B320DD76ED00D1F5AA /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081934C920DD518000AECA6A /* NetworkExtension.framework */; };
 		08ED92B820DE10B900D1F5AA /* OpenVPNAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081934CB20DD51E000AECA6A /* OpenVPNAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -91,7 +90,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				081934D020DD51E100AECA6A /* KeychainAccess.framework in Frameworks */,
-				08ED92B320DD76ED00D1F5AA /* NetworkExtension.framework in Frameworks */,
 				081934CE20DD51E100AECA6A /* OpenVPNAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,6 +164,7 @@
 				0819349C20DD4AB500AECA6A /* Resources */,
 				081934C320DD504800AECA6A /* Embed App Extensions */,
 				08ED92B920DE10BA00D1F5AA /* Embed Frameworks */,
+				08ED92C620DEC25900D1F5AA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -184,7 +183,6 @@
 				081934B320DD504700AECA6A /* Sources */,
 				081934B420DD504700AECA6A /* Frameworks */,
 				081934B520DD504700AECA6A /* Resources */,
-				08ED92BA20DE1F0A00D1F5AA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -279,18 +277,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08ED92BA20DE1F0A00D1F5AA /* ShellScript */ = {
+		08ED92C620DEC25900D1F5AA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/OpenVPNAdapter.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 

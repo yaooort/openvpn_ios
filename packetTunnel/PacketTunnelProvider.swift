@@ -12,7 +12,6 @@ import OpenVPNAdapter
 class PacketTunnelProvider: NEPacketTunnelProvider {
     
     lazy var vpnAdapter: OpenVPNAdapter = {
-        print("jiyunpacket start tunnel method exec")
         let adapter = OpenVPNAdapter()
         adapter.delegate = self
         
@@ -25,7 +24,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     var stopHandler: (() -> Void)?
     
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-        print("jiyunpacket start tunnel method exec")
+        NSLog("========================================================jiyun start tunnel ========================================================")
         // There are many ways to provide OpenVPN settings to the tunnel provider. For instance,
         // you can use `options` argument of `startTunnel(options:completionHandler:)` method or get
         // settings from `protocolConfiguration.providerConfiguration` property of `NEPacketTunnelProvider`
@@ -42,7 +41,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 fatalError()
         }
         
-        guard let ovpnFileContent: Data = providerConfiguration["ovpn"] as? Data else {
+        guard let ovpnFileContent: Data = providerConfiguration["configuration"] as? Data else {
             fatalError()
         }
         
@@ -68,6 +67,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             // properties. It is recommended to use persistent keychain reference to a keychain
             // item containing the password.
             
+            NSLog("========================================================jiyun !autologin ========================================================")
+            
             guard let username: String = protocolConfiguration.username else {
                 fatalError()
             }
@@ -87,6 +88,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 completionHandler(error)
                 return
             }
+        } else {
+            NSLog("========================================================jiyun autologin ========================================================")
         }
         
         // Checking reachability. In some cases after switching from cellular to
@@ -96,7 +99,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             guard status != .notReachable else { return }
             self?.vpnAdapter.reconnect(afterTimeInterval: 5)
         }
-        
+        vpnAdapter.delegate = self
         // Establish connection and wait for .connected event
         startHandler = completionHandler
         vpnAdapter.connect()
@@ -104,8 +107,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         
-        print("==============")
-        
+        NSLog("========================================================jiyun stop tunnel ========================================================")
+
         stopHandler = completionHandler
         
         if vpnReachability.isTracking {
@@ -136,7 +139,8 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
         switch event {
         case .connected:
             
-            print("jiyunpacket connect")
+            NSLog("========================================================jiyun connected========================================================")
+            
             if reasserting {
                 reasserting = false
             }
@@ -147,7 +151,7 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
             self.startHandler = nil
             
         case .disconnected:
-            print("jiyunpacket disconnect")
+            NSLog("========================================================jiyun disconnected========================================================")
             guard let stopHandler = stopHandler else { return }
             
             if vpnReachability.isTracking {
@@ -158,6 +162,7 @@ extension PacketTunnelProvider: OpenVPNAdapterDelegate {
             self.stopHandler = nil
             
         case .reconnecting:
+            NSLog("========================================================jiyun reconnecting========================================================")
             reasserting = true
             
         default:
