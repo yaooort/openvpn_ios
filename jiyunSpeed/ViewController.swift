@@ -18,31 +18,66 @@ public enum VPNStatus {
 }
 
 
-@objc protocol VideoJsDelegate:JSExport {
+@objc protocol JavaScriptMethodProtocol:JSExport {
     func playLog(videoId:String)
     func stopVpn()
+    func getVpnLastLog()->String
+    func toast(_ str: String)
+    func recordLogin()
+    func getAppVersionCode()->String
+    func openShare(_ title: String, _ content: String)
     func launchVpn(
-        msg: String,
-        lineId: String,
-        name: String,
-        password: String,
-        ca: String,
-        tls: String,
-        remote: String,
-        port: String
+       _ msg: String,
+       _ lineId: String,
+       _ name: String,
+       _ password: String,
+       _ ca: String,
+       _ tls: String,
+       _ remote: String,
+       _ port: String
     )
     func existsCollectVideo(collectId:String, _ handleName:String, _ typeStr:String)
 }
 
-@objc class VideoJsModel: NSObject, VideoJsDelegate {
+@objc class jsMethod: NSObject, JavaScriptMethodProtocol {
     
+    
+    private var vc:ViewController?
     var jsContext:JSContext!
     
-    func launchVpn(msg: String, lineId: String, name: String, password: String, ca: String, tls: String, remote: String, port: String) {
+    init(viewController:ViewController) {
+        self.vc = viewController
+    }
+    
+    func toast(_ str: String) {
+        print(str)
+    }
+    
+    func getVpnLastLog () -> String{
+        return ""
+    }
+    
+    func recordLogin() {
+       print("login")
+    }
+    
+    func getAppVersionCode () -> String{
+        return ""
+    }
+    
+    func openShare(_ title: String, _ content: String) {
+        print("js call share title is")
+    }
+
+    
+    // todo: 时间一长，重装才能 开启成功 ?
+    func launchVpn(_ msg: String, _ lineId: String, _ name: String, _ password: String, _ ca: String, _ tls: String, _ remote: String, _ port: String) {
         print("start vpn ca \(ca)")
+        self.vc?.connectVpn()
     }
     
     func stopVpn() {
+        self.vc?.stopVpn()
     }
 
     func playLog(videoId:String) {
@@ -58,7 +93,8 @@ public enum VPNStatus {
 }
 
 
-class ViewController: UIViewController, UIWebViewDelegate{
+class ViewController: UIViewController{
+    
     @IBOutlet weak var mWb: UIWebView!
     @IBOutlet weak var mVpnStatus: UILabel!
     @IBOutlet weak var mConnectBtn: UIButton!
@@ -74,7 +110,6 @@ class ViewController: UIViewController, UIWebViewDelegate{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification), object: nil)
         }
     }
-        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,11 +124,13 @@ class ViewController: UIViewController, UIWebViewDelegate{
     }
    
     func initWb () {
-        let url = URL(string: "https://app.geeyun.org/#/")
-        mWb.loadRequest(URLRequest(url: url!))
+        // let url = URL(string: "https://app.geeyun.org/#/login")
+        let url = URL(string: "http://192.168.1.103:9001/#/login")
+        self.mWb.delegate = self
+        self.mWb.scalesPageToFit = true
+        self.mWb.loadRequest(URLRequest(url: url!))
         // todo: add before user agent
         UserDefaults.standard.register(defaults: ["UserAgent": "androidvpn"])
-        self.mWb.delegate = self
     }
 
     func initBtn () {
@@ -107,19 +144,23 @@ class ViewController: UIViewController, UIWebViewDelegate{
         let tag = sender?.tag
         switch (tag!) {
         case mConnectBtn.tag:
-            print("exec connect")
             connectVpn()
             break
         case mStopBtn.tag:
-            print("exec stop connect")
-            self.manager?.connection.stopVPNTunnel()
+            stopVpn()
             break
         default:
             break
         }
     }
     
+    func stopVpn () {
+       self.manager?.connection.stopVPNTunnel()
+    }
+    
     func connectVpn () {
+        print("call connect")
+        self.mWb.stringByEvaluatingJavaScript(from: "startConectAfterPermission()")
         let callback = { (error: Error?) -> Void in
             self.manager?.loadFromPreferences(completionHandler: { (error) in
                 guard error == nil else {
@@ -166,6 +207,7 @@ class ViewController: UIViewController, UIWebViewDelegate{
         switch manager.connection.status {
         case .connected:
             mVpnStatus.text = "connected"
+            self.updateWebVpnStatus(status: "connected")
             print("connected")
             self.vpnStatus = .On
         case .connecting, .reasserting:
@@ -194,20 +236,6 @@ class ViewController: UIViewController, UIWebViewDelegate{
                 }
             }
             complete(nil)
-        }
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        self.jsContext = webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as! JSContext
-        let model = VideoJsModel()
-        model.jsContext = self.jsContext
-        self.jsContext.setObject(model, forKeyedSubscript: "android" as NSCopying & NSObjectProtocol)
-        //WebView当前访问页面的链接 可动态注册
-        // let curUrl = webView.request?.url?.absoluteString
-        // self.jsContext.evaluateScript(try? String(contentsOfURL: NSURL(string: curUrl!)!, encoding: NSUTF8StringEncoding))
-        // self.jsContext.evaluateScript(<#T##script: String!##String!#>, withSourceURL: <#T##URL!#>)
-        self.jsContext.exceptionHandler = { (context, exception) in
-            print("exception：", exception)
         }
     }
 
@@ -254,5 +282,54 @@ extension ViewController {
         }
     }
 }
+
+extension ViewController: UIWebViewDelegate {
+    // 该方法是在UIWebView在开发加载时调用
+    func webViewDidStartLoad(_ webView: UIWebView) {
+        print("开始加载")
+        // LCProgressHUD.showLoading("正在加载")
+    }
+    
+    // 该方法是在UIWebView加载完之后才调用
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        print("加载完成")
+        // LCProgressHUD.hide()
+        let jsContext = webView.value(forKeyPath: "documentView.webView.mainFrame.javaScriptContext") as? JSContext
+        jsContext?.setObject(jsMethod(viewController: self), forKeyedSubscript: "android" as NSCopying & NSObjectProtocol)
+        // self.mWb.stringByEvaluatingJavaScript(from: "alert(1)")
+        let status = "connected"
+        self.mWb.stringByEvaluatingJavaScript(from: "(setStatus('\(status)'))")
+        // let curUrl =  webView.request?.url?.absoluteURL
+        // useful ?
+        // self.jsContext?.evaluateScript(try? String(contentsOf: curUrl!, encoding: String.Encoding.utf8))//WebView当前访问页面的链接 可动态注册
+        self.jsContext?.exceptionHandler = { context, exception in
+            print("JS Error: \(exception?.description ?? "unknown error")")
+        }
+
+    }
+    
+    func updateWebVpnStatus(status: String) {
+        self.mWb.stringByEvaluatingJavaScript(from: "(setStatus('\(status)'))")
+    }
+    
+    // 该方法是在UIWebView请求失败的时候调用
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        print("加载失败")
+        // LCProgressHUD.hide()
+    }
+    
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        let reqUrl = request.url?.absoluteString
+        if (reqUrl?.starts(with: "alipays://"))! {
+            UIApplication.shared.open(request.url!)
+            return false;
+        }
+        return true;
+        
+        }
+
+    }
+    
+
 
 
